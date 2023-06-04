@@ -2,11 +2,8 @@
 // this is an auto generated file. This will be overwritten
 
 export const onCreateProduct = /* GraphQL */ `
-  subscription OnCreateProduct(
-    $filter: ModelSubscriptionProductFilterInput
-    $owner: String
-  ) {
-    onCreateProduct(filter: $filter, owner: $owner) {
+  subscription OnCreateProduct($filter: ModelSubscriptionProductFilterInput) {
+    onCreateProduct(filter: $filter) {
       id
       title
       price
@@ -15,19 +12,15 @@ export const onCreateProduct = /* GraphQL */ `
       condition
       quantity
       seller
-      Image
+      image
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onUpdateProduct = /* GraphQL */ `
-  subscription OnUpdateProduct(
-    $filter: ModelSubscriptionProductFilterInput
-    $owner: String
-  ) {
-    onUpdateProduct(filter: $filter, owner: $owner) {
+  subscription OnUpdateProduct($filter: ModelSubscriptionProductFilterInput) {
+    onUpdateProduct(filter: $filter) {
       id
       title
       price
@@ -36,19 +29,15 @@ export const onUpdateProduct = /* GraphQL */ `
       condition
       quantity
       seller
-      Image
+      image
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onDeleteProduct = /* GraphQL */ `
-  subscription OnDeleteProduct(
-    $filter: ModelSubscriptionProductFilterInput
-    $owner: String
-  ) {
-    onDeleteProduct(filter: $filter, owner: $owner) {
+  subscription OnDeleteProduct($filter: ModelSubscriptionProductFilterInput) {
+    onDeleteProduct(filter: $filter) {
       id
       title
       price
@@ -57,10 +46,9 @@ export const onDeleteProduct = /* GraphQL */ `
       condition
       quantity
       seller
-      Image
+      image
       createdAt
       updatedAt
-      owner
     }
   }
 `;

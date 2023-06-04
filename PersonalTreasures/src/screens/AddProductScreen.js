@@ -19,6 +19,7 @@ const AddProductScreen = () => {
   const [image, setImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [imageURI, setImageURI] = useState(null);
 
   const pickImage = async () => {
     let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -37,6 +38,7 @@ const AddProductScreen = () => {
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);
+      setImageURI(result.assets[0].uri);
       await uploadImage(result.assets[0].uri);
     }
   };
@@ -71,27 +73,31 @@ const AddProductScreen = () => {
   const addProduct = async () => {
     try {
       if (!productForm.title || !productForm.description) return;
-
+  
       setIsLoading(true);
       const sellerId = await Auth.currentAuthenticatedUser().then((user) => user.attributes.sub);
-
+  
       const product = {
         ...productForm,
         seller: sellerId,
+        image: imageURI, // Add the image URI to the product
       };
-
+  
       setProducts([...products, product]);
       setProductForm(initialState);
       await API.graphql(graphqlOperation(createProduct, { input: product }));
       console.log('Product created:', product);
       // Handle success, e.g., show a success message or navigate to another screen
-    } catch (err) {
-      console.log('Error creating product:', err);
+    } catch (error) {
+      console.log('Error creating product:', error);
+      console.log('Product data:', productForm); // Access productForm instead of product
       setError('Failed to create product. Please try again.');
     } finally {
       setIsLoading(false);
     }
   };
+  
+  
 
   return (
     <View>

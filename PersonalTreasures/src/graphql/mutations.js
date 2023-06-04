@@ -15,10 +15,9 @@ export const createProduct = /* GraphQL */ `
       condition
       quantity
       seller
-      Image
+      image
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -36,10 +35,9 @@ export const updateProduct = /* GraphQL */ `
       condition
       quantity
       seller
-      Image
+      image
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -57,10 +55,9 @@ export const deleteProduct = /* GraphQL */ `
       condition
       quantity
       seller
-      Image
+      image
       createdAt
       updatedAt
-      owner
     }
   }
 `;

@@ -12,10 +12,9 @@ export const getProduct = /* GraphQL */ `
       condition
       quantity
       seller
-      Image
+      image
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -35,10 +34,9 @@ export const listProducts = /* GraphQL */ `
         condition
         quantity
         seller
-        Image
+        image
         createdAt
         updatedAt
-        owner
       }
       nextToken
     }
