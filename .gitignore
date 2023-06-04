@@ -1,0 +1,55 @@
+# macOS
+.DS_Store
+
+# Node.js
+node_modules/
+
+# Expo
+/.expo
+/.expo-shared
+.web/
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# Amplify
+.amplify/
+amplify/
+
+# AWS Amplify
+aws-exports.js
+
+# AWS S3
+*.s3.*
+
+# AWS API
+amplify/backend/api/
+
+# AWS Auth
+amplify/backend/auth/
+
+# Build artifacts
+**/build/
+**/dist/
+**/android/app/build/
+**/ios/build/
+
+# Dependencies
+/ios/Pods/
+/android/app/libs/
+
+# Logs
+*.log
+
+# IDE files
+.vscode/
+.idea/
+*.iml
+
+# Miscellaneous
+/.env
+/.env.local
+
+# Cache and backup files
+*.swp
+*~
