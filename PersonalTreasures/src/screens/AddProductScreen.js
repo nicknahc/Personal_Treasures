@@ -3,6 +3,8 @@ import { StyleSheet, View, TextInput, Button, Pressable, Text, Image, ActivityIn
 import { API, graphqlOperation, Auth, Storage } from 'aws-amplify';
 import { createProduct } from '../graphql/mutations';
 import * as ImagePicker from 'expo-image-picker';
+import { AntDesign } from '@expo/vector-icons';
+const MAX_IMAGE_LIMIT = 5;
 
 const initialState = {
   title: '',
@@ -11,37 +13,42 @@ const initialState = {
   price: 0,
   quantity: 0,
   condition: '',
+  images: [],
 };
 
 const AddProductScreen = () => {
   const [productForm, setProductForm] = useState(initialState);
   const [products, setProducts] = useState([]);
-  const [image, setImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [imageURI, setImageURI] = useState(null);
 
   const pickImage = async () => {
     let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-
+  
     if (permissionResult.granted === false) {
       console.log('Camera roll permission not granted');
       return;
     }
-
+  
+    if (productForm.images.length >= MAX_IMAGE_LIMIT) {
+      console.log('Maximum number of images reached');
+      return;
+    }
+  
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
-
+  
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
-      setImageURI(result.assets[0].uri);
-      await uploadImage(result.assets[0].uri);
+      const imageURI = result.assets[0].uri;
+      setProductForm((prevForm) => ({ ...prevForm, images: [...prevForm.images, imageURI] }));
+      await uploadImage(imageURI);
     }
   };
+  
 
   const uploadImage = async (uri) => {
     try {
@@ -67,7 +74,7 @@ const AddProductScreen = () => {
   };
 
   const setInput = (key, value) => {
-    setProductForm({ ...productForm, [key]: value });
+    setProductForm((prevForm) => ({ ...prevForm, [key]: value }));
   };
 
   const addProduct = async () => {
@@ -80,7 +87,6 @@ const AddProductScreen = () => {
       const product = {
         ...productForm,
         seller: sellerId,
-        image: imageURI, // Add the image URI to the product
       };
   
       setProducts([...products, product]);
@@ -96,8 +102,6 @@ const AddProductScreen = () => {
       setIsLoading(false);
     }
   };
-  
-  
 
   return (
     <View>
@@ -141,10 +145,19 @@ const AddProductScreen = () => {
       {isLoading ? (
         <ActivityIndicator size="small" color="black" />
       ) : (
-        image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
+        <View style={styles.imageContainer}>
+          {productForm.images.map((imageURI, index) => (
+            <Image key={index} source={{ uri: imageURI }} style={styles.image} />
+          ))}
+          {productForm.images.length < MAX_IMAGE_LIMIT && (
+        <Pressable onPress={pickImage} style={styles.imageContainer}>
+          <AntDesign name="plus" size={48} color="black" />
+        </Pressable>
+      )}
+        </View>
       )}
       {error && <Text style={styles.errorText}>{error}</Text>}
-      <Button title="Pick an image from camera roll" onPress={pickImage} />
+      {/* Add product button */}
       <Pressable onPress={addProduct} style={styles.buttonContainer}>
         <Text style={styles.buttonText}>Add Product</Text>
       </Pressable>
@@ -152,12 +165,34 @@ const AddProductScreen = () => {
   );
 };
 
-export default AddProductScreen;
-
 const styles = StyleSheet.create({
   container: { width: 400, flex: 1, padding: 20, alignSelf: 'center' },
   input: { backgroundColor: '#ddd', marginBottom: 10, padding: 8, fontSize: 18 },
   buttonContainer: { alignSelf: 'center', backgroundColor: 'black', paddingHorizontal: 8 },
   buttonText: { color: 'white', padding: 16, fontSize: 18 },
   errorText: { color: 'red', marginVertical: 10 },
+  imageContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginBottom: 10,
+  },
+  image: {
+    width: 100,
+    height: 100,
+    marginRight: 10,
+    marginBottom: 10,
+    resizeMode: 'cover',
+  },
+  addImageButton: {
+    width: 100,
+    height: 100,
+    borderWidth: 1,
+    borderColor: 'black',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 10,
+    marginBottom: 10,
+  },
 });
+
+export default AddProductScreen;

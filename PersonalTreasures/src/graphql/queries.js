@@ -12,7 +12,7 @@ export const getProduct = /* GraphQL */ `
       condition
       quantity
       seller
-      image
+      images
       createdAt
       updatedAt
     }
@@ -34,7 +34,7 @@ export const listProducts = /* GraphQL */ `
         condition
         quantity
         seller
-        image
+        images
         createdAt
         updatedAt
       }

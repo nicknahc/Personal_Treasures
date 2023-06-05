@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, Image } from 'react-native';
 import { Auth, API, graphqlOperation } from 'aws-amplify';
 import { listProducts } from '../graphql/queries';
 
@@ -43,7 +43,21 @@ const ProfileScreen = () => {
       )}
       <Text style={styles.sectionTitle}>Posted Products:</Text>
       {products.map((product) => (
-        <Text key={product.id}>{product.title}</Text>
+        <View key={product.id} style={styles.productContainer}>
+          <Text>Title: {product.title}</Text>
+          <Text>Price: {product.price}</Text>
+          <Text>Description: {product.description}</Text>
+          <Text>Category: {product.category}</Text>
+          <Text>Condition: {product.condition}</Text>
+          <Text>Quantity: {product.quantity}</Text>
+          {product.images && product.images.length > 0 && (
+            <View style={styles.imagesContainer}>
+              {product.images.map((image, index) => (
+                <Image key={index} source={{ uri: image }} style={styles.image} />
+              ))}
+            </View>
+          )}
+        </View>
       ))}
     </View>
   );
@@ -65,6 +79,22 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: 16,
     marginBottom: 8,
+  },
+  productContainer: {
+    borderWidth: 1,
+    borderColor: 'black',
+    padding: 10,
+    marginBottom: 10,
+  },
+  imagesContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginTop: 10,
+  },
+  image: {
+    width: 100,
+    height: 100,
+    margin: 5,
   },
 });
 

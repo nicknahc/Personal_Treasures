@@ -15,7 +15,7 @@ export const createProduct = /* GraphQL */ `
       condition
       quantity
       seller
-      image
+      images
       createdAt
       updatedAt
     }
@@ -35,7 +35,7 @@ export const updateProduct = /* GraphQL */ `
       condition
       quantity
       seller
-      image
+      images
       createdAt
       updatedAt
     }
@@ -55,7 +55,7 @@ export const deleteProduct = /* GraphQL */ `
       condition
       quantity
       seller
-      image
+      images
       createdAt
       updatedAt
     }

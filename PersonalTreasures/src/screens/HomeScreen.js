@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Text, Image } from 'react-native';
+import { StyleSheet, View, Text, Image, ScrollView } from 'react-native';
 import { API, graphqlOperation } from 'aws-amplify';
 import { listProducts } from '../graphql/queries';
 
@@ -21,7 +21,7 @@ const HomeScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Home Screen</Text>
       {products.map((product) => (
         <View key={product.id} style={styles.productContainer}>
@@ -31,18 +31,21 @@ const HomeScreen = () => {
           <Text>Category: {product.category}</Text>
           <Text>Condition: {product.condition}</Text>
           <Text>Quantity: {product.quantity}</Text>
-          {product.image && <Image source={{ uri: product.image }} style={styles.image} />}
+          {product.images && product.images.length > 0 && (
+            <Image source={{ uri: product.images[0] }} style={styles.image} />
+          )}
         </View>
       ))}
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    paddingVertical: 20,
   },
   title: {
     fontSize: 24,
