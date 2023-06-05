@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, Image } from 'react-native';
 import { API, graphqlOperation } from 'aws-amplify';
 import { listProducts } from '../graphql/queries';
 
@@ -19,7 +19,7 @@ const HomeScreen = () => {
       console.log('Error fetching products:', error);
     }
   };
-  
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Home Screen</Text>
@@ -31,6 +31,7 @@ const HomeScreen = () => {
           <Text>Category: {product.category}</Text>
           <Text>Condition: {product.condition}</Text>
           <Text>Quantity: {product.quantity}</Text>
+          {product.image && <Image source={{ uri: product.image }} style={styles.image} />}
         </View>
       ))}
     </View>
@@ -53,6 +54,11 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     padding: 10,
     marginBottom: 10,
+  },
+  image: {
+    width: 200,
+    height: 200,
+    marginTop: 10,
   },
 });
 
