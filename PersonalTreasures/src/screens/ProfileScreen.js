@@ -26,11 +26,12 @@ const ProfileScreen = () => {
       const { data } = await API.graphql(
         graphqlOperation(listProducts, { filter: { seller: { eq: user?.attributes?.sub } } })
       );
-      setProducts(data.listProducts.items);
+      setProducts(data.listProducts.items || []);
     } catch (error) {
       console.log('Error fetching user products:', error);
     }
   };
+  
 
   return (
     <View style={styles.container}>

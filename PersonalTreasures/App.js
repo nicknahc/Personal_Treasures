@@ -12,6 +12,7 @@ import {createTodo} from './src/graphql/mutations';
 import {listTodos} from './src/graphql/queries';
 import { Authenticator, useAuthenticator, withAuthenticator, ThemeProvider, AmplifyTheme, defaultDarkModeOverride} from '@aws-amplify/ui-react-native';
 import { Amplify } from 'aws-amplify';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import awsExports from './src/aws-exports';
 import Navigation from './src/screens/Navigation';
 Amplify.configure(awsExports);
@@ -40,7 +41,9 @@ const SignOutButton = () => {
       <SafeAreaView style={styles.container}>
       <View style={styles.container}>
         <SignOutButton />
-        <Navigation />
+        <GestureHandlerRootView style={{ flex: 1 }}>
+      <Navigation />
+    </GestureHandlerRootView>
       </View>
     </SafeAreaView>
   </ThemeProvider>
